@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=1.5cm, top=1.2cm, bottom=1.5cm}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+
+\pagestyle{empty}
+
+% Highlighting style
+\newcommand{\fieldval}[1]{\textbf{\textcolor{blue!70!black}{#1}}}
+
+% Header Macro
+\newcommand{\journalheader}[1]{%
+\noindent
+\begin{tabular}{|p{3.2cm}|p{4.4cm}|p{0.7cm}|p{4.7cm}|p{3.2cm}|}
+\hline
+\centering \textbf{ISIMG}\\[2pt] {\tiny Institut Supérieur d'Informatique et de Multimédia}
+& \centering \scriptsize \textbf{République Tunisienne}\\[2pt] \scriptsize Ministère de l'Enseignement Supérieur, de la Recherche Scientifique
+& \centering \Large $\star$
+& \centering \scriptsize \textbf{Université de Gabès}\\[2pt] \scriptsize Institut Supérieur d'Informatique et de Multimédia de Gabès\\[2pt] \scriptsize Direction des Études et des Stages
+& \textbf{Date :} \newline 06/07/2025 \\ \cline{5-5}
+& & & & \textbf{Réf :} .......... \\ \hline
+\multicolumn{4}{|c|}{\textbf{\Large Journal de Stage}} & \textbf{Version :} 00 \\ \cline{5-5}
+\multicolumn{4}{|c|}{} & \textbf{Page #1 sur 3} \\ \hline
+\end{tabular}%
+\par\vspace{0.8cm}
+}
+
+\begin{document}
+
+% ==========================================
+% PAGE 1 SUR 3
+% ==========================================
+\journalheader{1}
+
+\vspace{0.5cm}
+
+\noindent
+\begin{tabular}{|m{5.2cm}|m{11.8cm}|}
+\hline
+\rule{0pt}{1.2cm} \centering \textit{\Large Nom et prénom de l'étudiant} & \hspace{0.5cm} \textbf{\Large Oumaya Zahra MANSOUR} \\[0.4cm]
+\hline
+\rule{0pt}{1.2cm} \centering \textit{\Large N° CIN} & \hspace{0.5cm} \textbf{\Large ........................} \\[0.4cm]
+\hline
+\rule{0pt}{1.2cm} \centering \textit{\Large Filière} & \hspace{0.5cm} \textbf{\Large Licence en Sciences de l'Informatique} \\[0.4cm]
+\hline
+\rule{0pt}{1.4cm} \centering \textit{\Large Etablissement d'accueil} & \hspace{0.5cm} \textbf{\Large LEONI Tunisia} \newline \hspace*{0.5cm} \small (Département IT \& Process Management) \\[0.4cm]
+\hline
+\rule{0pt}{1.4cm} \centering \textit{\Large Période du stage} & \hspace{0.5cm} {\Large de \textbf{09 / 06 / 2025} \hspace{0.3cm} à \hspace{0.3cm} \textbf{08 / 07 / 2025}} \\[0.4cm]
+\hline
+\end{tabular}
+
+\vfill
+
+\begin{flushright}
+\begin{minipage}{8cm}
+\centering
+\textbf{\large Signature et cachet de l'établissement d'accueil} \\[2.5cm]
+...........................................................................
+\end{minipage}
+\end{flushright}
+
+\vfill
+
+% ==========================================
+% PAGE 2 SUR 3
+% ==========================================
+\newpage
+\journalheader{2}
+
+\begin{center}
+{\Large \textbf{Activités hebdomadaires du stagiaire}}
+\end{center}
+
+\vspace{0.4cm}
+
+\noindent
+\begin{tabular}{|p{4.2cm}|p{12.8cm}|}
+\hline
+\centering \textbf{\Large Semaines} & \centering \textbf{\Large Résumé des activités} \tabularnewline
+\hline
+\textbf{\large Semaine 1} \newline \newline \small (09/06 -- 15/06/2025) 
+& 
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Accueil \& Intégration :} Prise de contact avec l'équipe du département IT \& Process Management au sein de \textbf{LEONI Tunisia}.
+    \item \textbf{Étude de l'existant :} Analyse approfondie du processus actuel de surveillance des salles serveurs (relèves manuelles, risques de surchauffe et manque de contrôle d'accès nominatif).
+    \item \textbf{Cahier des Charges :} Spécification des besoins fonctionnels et techniques du projet \textbf{LEONI Control Center} (supervision climatique IoT, badges RFID, alertes d'urgence et assistant IA).
+    \item \textbf{Prise en main du matériel :} Installation et tests individuels des composants hardware : carte microcontrôleur \textbf{ESP32 DevKit V1}, capteur de température/humidité \textbf{DHT11}, lecteur RFID \textbf{RC522} (13,56 MHz) et \textbf{LED RGB}.
+    \item \textbf{Banc d'essai :} Assemblage du circuit prototype sur breadboard et validation des premiers signaux.
+\end{itemize}
+\tabularnewline
+\hline
+\textbf{\large Semaine 2} \newline \newline \small (16/06 -- 22/06/2025)
+& 
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Conception Architecture :} Élaboration du schéma d'architecture globale 3-Tiers (Edge IoT / Backend Node.js / Frontend React).
+    \item \textbf{Modélisation de Données :} Conception du modèle conceptuel et relationnel (MCD/ERD) sous \textbf{SQLite} via l'ORM \textbf{Sequelize} (entités Salle, Badge, Autorisation, Historique, Mesure).
+    \item \textbf{Développement Backend REST :} Implémentation du serveur applicatif \textbf{Node.js / Express.js}. Développement des endpoints pour l'enregistrement des mesures climatiques et la vérification instantanée des UIDs RFID.
+    \item \textbf{Système d'Alerte Automatique :} Intégration de \textbf{Nodemailer} (SMTP) pour l'envoi automatique de courriels d'alerte aux administrateurs (surchauffe $>$ 28°C, humidité $>$ 70\% ou 3 échecs d'accès consécutifs).
+    \item \textbf{Gestion du Cooldown :} Implémentation d'une temporisation anti-spam (5 min) sur le service d'alerte.
+\end{itemize}
+\tabularnewline
+\hline
+\end{tabular}
+
+% ==========================================
+% PAGE 3 SUR 3
+% ==========================================
+\newpage
+\journalheader{3}
+
+\noindent
+\begin{tabular}{|p{4.2cm}|p{12.8cm}|}
+\hline
+\centering \textbf{\Large Semaines} & \centering \textbf{\Large Résumé des activités} \tabularnewline
+\hline
+\textbf{\large Semaine 3} \newline \newline \small (23/06 -- 29/06/2025)
+& 
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Firmware Embarqué ESP32 :} Programmation C++ avec Arduino IDE. Implémentation du protocole SPI pour le lecteur RC522, protocole Single-Wire pour le DHT11 et gestion des couleurs de la LED RGB (Vert/Rouge/Bleu).
+    \item \textbf{Communication Réseau IoT :} Envoi automatique des mesures et des lectures de badges via des requêtes HTTP POST vers l'API Node.js avec reconnexion Wi-Fi automatique.
+    \item \textbf{Développement Frontend React :} Conception d'une Single Page Application (SPA) avec \textbf{React.js} et \textbf{Vite}.
+    \item \textbf{Tableau de Bord \& Graphiques :} Réalisation de l'interface Multi-Sites / Multi-Salles, des jauges d'indicateurs en temps réel et des courbes climatiques dynamiques (Recharts/Axios).
+    \item \textbf{Gestion des Badges \& Historique :} Développement des interfaces CRUD de gestion des badges et de consultation de l'historique complet des passages.
+\end{itemize}
+\tabularnewline
+\hline
+\textbf{\large Semaine 4} \newline \newline \small (30/06 -- 08/07/2025)
+& 
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Intégration de l'Assistant IA :} Développement du Chatbot / Voicebot propulsé par le modèle \textbf{LLaMA 3.3 70B} via le SDK \textbf{Groq Cloud}.
+    \item \textbf{Contexte Réel \& Voicebot :} Injection dynamique de l'état des salles dans le System Prompt. Intégration de la reconnaissance vocale et synthèse vocale (\textbf{Web Speech API}) et transmission fluide mot par mot en streaming (\textbf{Server-Sent Events}).
+    \item \textbf{Agentic Actions \& Fallback :} Capacité du chatbot à déclencher des alertes directes et mode de secours local en cas de coupure internet.
+    \item \textbf{Tests \& Validation Globale :} Recette complète de la solution (matériel, backend REST, frontend et assistant IA).
+    \item \textbf{Documentation \& Bilan :} Rédaction du rapport de stage final et finalisation du Journal de Stage.
+\end{itemize}
+\tabularnewline
+\hline
+\end{tabular}
+
+\vspace{1cm}
+
+\noindent
+\begin{tabular}{|p{8.2cm}|p{8.8cm}|}
+\hline
+\rule{0pt}{0.6cm} \centering \textbf{\large Approbation de l'encadrant académique} & \centering \textbf{\large Signature et cachet de l'entreprise} \\[2.8cm]
+\hline
+\end{tabular}
+
+\end{document}

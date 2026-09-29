@@ -1,0 +1,4 @@
+# Wokwi Library List
+MFRC522
+DHT sensor library
+Adafruit Unified Sensor

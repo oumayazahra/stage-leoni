@@ -1,0 +1,716 @@
+\documentclass[12pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{xcolor}
+
+\begin{document}
+
+% ==========================================
+% PAGE DE GARDE
+% ==========================================
+\begin{titlepage}
+    \begin{center}
+        % --- LIGNE DES LOGOS ET TEXTE (3 colonnes) ---
+        \begin{minipage}[c]{0.25\textwidth}
+            \begin{flushleft}
+                \includegraphics[height=2.5cm]{logo_isimg.png}
+            \end{flushleft}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.45\textwidth}
+            \centering
+            \small
+            \textbf{République Tunisienne}\\
+            *****\\
+            \textbf{Ministère de l'Enseignement Supérieur et de la Recherche\\Scientifique}\\
+            *****\\
+            \textbf{Université de Gabès}\\
+            *****\\
+            \textbf{Institut Supérieur d'Informatique et de Multimédia de Gabès}\\
+            *****\\
+            \textbf{Département Informatique}
+        \end{minipage}%
+        \hfill
+        \begin{minipage}[c]{0.25\textwidth}
+            \begin{flushright}
+                \includegraphics[height=2.5cm]{logo_ugab.png}
+            \end{flushright}
+        \end{minipage}
+        
+        \vspace{1.5cm}
+        
+        % TITRE DU RAPPORT (Bleu foncé)
+        {\LARGE \textbf{\textcolor[HTML]{2B4257}{Rapport de Stage d'Initiation Professionnelle}}} \\[1.5cm]
+        
+        {\large Intitulé du projet :} \\[0.8cm]
+        
+        % TITRE DU PROJET (Bleu italique entre deux lignes)
+        \noindent\textcolor[HTML]{4A85A0}{\rule{0.85\textwidth}{1pt}} \\[0.5cm]
+        {\Large \textit{\textcolor[HTML]{226581}{Conception et Développement d'une Application \\ Web IoT de Supervision (LEONI)}}} \\[0.5cm]
+        \noindent\textcolor[HTML]{4A85A0}{\rule{0.85\textwidth}{1pt}} \\[1.5cm]
+        
+        % ENTREPRISE
+        {\large Effectué au sein de :} \\[0.8cm]
+        
+        % TODO: Décommenter et remplacer par le logo de LEONI
+        % \includegraphics[width=4cm]{leoni_logo.png} \\[0.5cm]
+        {\Large \textbf{\textit{LEONI Tunisia}}} \\[2cm]
+        
+    \end{center}
+    
+    % PIED DE PAGE (Dates et Encadrants)
+    \begin{flushleft}
+        {\large Période de stage : \textbf{09/06/2025 - 08/07/2025}} \\[0.8cm]
+        {\large Encadrant(e) : \textbf{Mme./M. [Nom de votre encadrant]}}
+    \end{flushleft}
+    
+    \begin{center}
+        \vspace{0.5cm}
+        {\large Présenté par :} \\[0.3cm]
+        {\large \textit{Oumaya Zahra Mansour}}
+    \end{center}
+\end{titlepage}
+
+% ==========================================
+% REMERCIEMENTS
+% ==========================================
+\chapter*{Remerciements}
+\addcontentsline{toc}{chapter}{Remerciements}
+Je tiens à exprimer ma sincère gratitude à l'ensemble des équipes de \textbf{LEONI Tunisia} pour leur accueil chaleureux et leur collaboration tout au long de la durée de mon stage. 
+
+Ma reconnaissance va tout particulièrement à mon encadrant industriel, pour sa confiance, ses précieux conseils, son encadrement avisé et sa disponibilité tout au long de ce projet.
+
+Enfin, je souhaite adresser un remerciement à l'ensemble des collaborateurs du département informatique (IT) pour leur esprit d'équipe et leur soutien lors de la résolution des défis techniques rencontrés, ainsi qu'au corps enseignant de l'ISIMG pour la qualité de la formation dispensée.
+
+% ==========================================
+% SOMMAIRE
+% ==========================================
+\tableofcontents
+
+% ==========================================
+% INTRODUCTION GENERALE
+% ==========================================
+\chapter*{Introduction Générale}
+\addcontentsline{toc}{chapter}{Introduction Générale}
+Ce rapport présente le travail réalisé durant mon stage d'initiation professionnelle au sein de la multinationale \textbf{LEONI Tunisia}. Ce stage a été pour moi l'occasion idéale de mettre en pratique les connaissances théoriques acquises en classe dans un environnement industriel d'envergure mondiale.
+
+J'ai été accueillie au sein du département informatique (IT), où j'ai participé à un projet concret et critique : la conception et le développement du \textbf{LEONI Control Center}. Il s'agit d'une application web associée à un système IoT pour superviser en temps réel les salles serveurs de l'entreprise. Avant ce projet, la surveillance des températures, de l'humidité et de l'accès physique à ces salles extrêmement sensibles reposait sur des vérifications manuelles et non centralisées, ce qui occasionnait des risques de surchauffe ou d'intrusions inaperçues.
+
+La solution que j'ai créée permet de :
+\begin{itemize}
+    \item Surveiller en temps réel les capteurs physiques (température/humidité).
+    \item Contrôler les accès aux portes grâce à une vérification instantanée des badges RFID.
+    \item Centraliser les informations sur un tableau de bord web interactif.
+    \item Intégrer un assistant virtuel basé sur l'Intelligence Artificielle (Groq / LLaMA) pour aider les techniciens à appliquer les procédures d'urgence.
+\end{itemize}
+
+Dans ce document, je vais d'abord vous présenter l'entreprise LEONI Tunisia. Ensuite, je détaillerai les problèmes que l'application devait résoudre et les objectifs du projet. Je vous expliquerai comment j'ai conçu et programmé l'application, et avec quels outils techniques (React, Node.js, SQLite, ESP32). Enfin, je montrerai le résultat final et terminerai par le bilan de cette expérience.
+
+% ==========================================
+% CHAPITRE 1
+% ==========================================
+\chapter{Présentation de l'Organisme d'Accueil}
+
+\section{Historique et Positionnement Stratégique}
+Fondé en 1917, le groupe allemand LEONI est un fournisseur mondial de premier plan de produits, solutions et services pour la gestion de l'énergie et des données dans l'industrie automobile. 
+
+\textbf{LEONI Tunisia} a vu le jour en 1977 avec la fondation du site de Thrayet (Sousse). Ce fut un événement marquant car il s'agissait du tout premier site de production de la division Wiring Systems de LEONI construit en dehors de l'Europe. Aujourd'hui, avec plus de 48 ans d'expérience, LEONI Tunisia s'est imposée comme le \textbf{plus grand employeur privé de Tunisie} avec un effectif dépassant les 24 000 collaborateurs répartis sur plusieurs grands sites (Sousse, Mateur, Sidi Bouali, Menzel Hayet). 
+
+\section{Structure Organisationnelle et Service d'Affectation}
+En plus de la production de câblages automobiles de pointe, LEONI Tunisia abrite un \textbf{Shared Service Center} (Centre de Services Partagés) stratégique. Créé en 2005, ce pôle regroupe les fonctions de support mondiales telles que les Ressources Humaines, la Finance, et le département \textbf{IT \& Process Management}. 
+
+C'est au sein de ce pôle technique et informatique que mon stage s'est déroulé. Ce service a pour mission de garantir la disponibilité 24h/24 et 7j/7 des infrastructures réseaux et serveurs critiques (ERP SAP, cœur de réseau Cisco, sauvegardes) indispensables pour ne pas bloquer les chaînes de production automobile.
+
+\section{Activités et Enjeux du Service}
+Le service informatique fait face à des défis majeurs :
+\begin{itemize}
+    \item Assurer la sécurité physique et logique des Salles Serveurs (Main et Backup).
+    \item Prévenir toute défaillance matérielle liée à la climatisation ou à l'alimentation électrique.
+    \item Garantir un temps de réaction minimum en cas d'incident (surchauffe, intrusion).
+\end{itemize}
+
+% ==========================================
+% CHAPITRE 2
+% ==========================================
+\chapter{Cadre du Projet et Analyse des Besoins}
+
+\section{Problématique et Constat Initial}
+Les salles serveurs du département IT de LEONI Tunisia constituent une infrastructure critique qui héberge les systèmes d'information essentiels à la continuité de la production (ERP SAP, cœur de réseau Cisco, serveurs de sauvegarde). Ces salles doivent être maintenues en permanence dans des conditions climatiques précises et leur accès physique doit être strictement contrôlé.
+
+Avant ce projet, le suivi de l'environnement des salles serveurs reposait sur des pratiques manuelles et non intégrées. L'absence d'un système centralisé en temps réel générait plusieurs risques et problèmes opérationnels :
+
+\begin{itemize}
+    \item \textbf{Absence de supervision en temps réel} : Il n'existait pas de tableau de bord numérique permettant de consulter instantanément la température et l'humidité des salles. Les techniciens devaient physiquement se rendre sur les lieux pour lire les indicateurs locaux.
+    \item \textbf{Réactivité insuffisante} : En cas de surchauffe (température dépassant le seuil critique de 28°C), le délai de détection et d'intervention était trop long, exposant les équipements à des risques de dommages irréversibles.
+    \item \textbf{Contrôle d'accès limité} : L'ouverture des portes était gérée de façon sommaire, sans journalisation automatique et sans corrélation entre un badge et une identité nominative dans une base de données centralisée.
+    \item \textbf{Absence de traçabilité intelligente} : En cas d'incident de sécurité, retrouver l'historique complet des mouvements physiques dans une salle (qui est entré, à quelle heure, avec quel badge) était long et fastidieux.
+    \item \textbf{Lourdeur des procédures d'urgence} : Les jeunes recrues et les techniciens en astreinte ne disposaient pas d'un accès rapide aux protocoles d'intervention, ce qui allongeait inutilement le temps de réponse en situation de crise.
+\end{itemize}
+
+\subsection*{Un besoin urgent : l'assistance intelligente par IA (Chatbot et Voicebot)}
+
+Au-delà des problématiques liées aux capteurs et au contrôle d'accès, une lacune majeure concernait \textbf{l'accès à la connaissance opérationnelle} en situation d'urgence. Le département IT de LEONI Tunisia gère une infrastructure complexe avec des procédures d'intervention spécifiques pour chaque type d'incident. Or, ces procédures étaient dispersées dans des documents Word et des e-mails internes, et aucun outil ne permettait de les consulter rapidement en situation de crise.
+
+Les conséquences concrètes de cette lacune étaient les suivantes :
+
+\begin{itemize}
+    \item \textbf{Manque d'un interlocuteur intelligent disponible 24h/24} : En dehors des heures ouvrées, le technicien d'astreinte se retrouvait souvent seul face à une situation d'alerte, sans pouvoir rapidement interroger un expert ou un système de connaissance pour connaître la marche à suivre.
+    \item \textbf{Perte de temps critique lors des incidents} : Retrouver le bon document, appeler le bon responsable ou consulter le bon email dans l'urgence d'une surchauffe pouvait faire perdre des minutes précieuses, directement préjudiciables à l'intégrité des équipements.
+    \item \textbf{Déconnexion entre les données en temps réel et la prise de décision} : Même lorsqu'un technicien connaissait le protocole d'intervention, il devait jongler entre l'écran de surveillance des capteurs et ses notes de procédure pour comprendre la situation globale. Il n'existait aucun outil capable de \textit{synthétiser} l'état actuel de la salle et de \textit{conseiller} en conséquence.
+    \item \textbf{Accessibilité limitée} : Un système qui nécessite de taper sur un clavier n'est pas toujours pratique pour un technicien qui intervient physiquement dans une salle serveur et dont les mains sont occupées. L'absence d'une \textbf{interface vocale} rendait les outils disponibles peu adaptés au contexte terrain.
+\end{itemize}
+
+C'est précisément pour répondre à ces besoins que le projet LEONI Control Center a intégré deux fonctionnalités de rupture technologique :
+
+\begin{enumerate}
+    \item \textbf{Un Chatbot IA contextuel et polyvalent} : Un assistant conversationnel basé sur le grand modèle de langage \textbf{LLaMA 3.3 70B} (via l'API Groq), capable d'analyser en temps réel l'état des capteurs (température, humidité, historique des accès) et de répondre à \textbf{toute question posée en langage naturel}.
+
+    Contrairement à un simple système de FAQ statique, ce chatbot peut être interrogé sur une multitude de sujets, sans restriction de domaine :
+    \begin{itemize}
+        \item \textit{"Quel est le protocole d'urgence si la température dépasse 28°C ?"}
+        \item \textit{"Qui a accès à la salle serveur Backup ?"}
+        \item \textit{"Quelle est la différence entre un rôle Manager et Support dans le système ?"}
+        \item \textit{"Comment fonctionne le système de détection d'intrusion ?"}
+        \item \textit{"Quelles sont les règles de sécurité physique des salles serveurs chez LEONI ?"}
+    \end{itemize}
+
+    Cette polyvalence fait du chatbot un \textbf{outil d'intégration particulièrement précieux pour les nouvelles recrues}. Un nouvel employé ou stagiaire peut, dès son premier jour, poser librement toutes ses questions sur le fonctionnement de l'infrastructure IT de LEONI Tunisia, les règles de sécurité, les procédures internes, ou l'utilisation de l'application elle-même --- et recevoir des réponses claires, instantanées et contextualisées, sans déranger ses collègues. Cette approche réduit considérablement le temps d'\textbf{onboarding} et favorise une montée en compétence rapide et autonome.
+
+    \item \textbf{Un Voicebot (assistant vocal)} : Pour pallier le manque d'accessibilité dans le contexte terrain, une interface de \textbf{reconnaissance vocale} a été intégrée à l'application. Le technicien peut dicter sa question à voix haute ; le système transcrit la parole en texte, l'envoie au moteur IA, et restitue la réponse en \textbf{synthèse vocale} (Text-to-Speech). Cela permet une interaction entièrement mains libres, particulièrement utile lors d'interventions physiques.
+\end{enumerate}
+
+Cette combinaison chatbot + voicebot représente une innovation significative dans le contexte de la supervision industrielle. Elle transforme l'application d'un simple tableau de bord passif en un véritable \textbf{assistant opérationnel intelligent}, disponible en permanence, capable de comprendre la situation et d'agir en conséquence. Qu'il s'agisse d'un technicien expérimenté cherchant une confirmation rapide, ou d'une nouvelle recrue découvrant l'environnement LEONI, chacun trouve dans cet assistant un interlocuteur disponible, patient et toujours informé.
+
+\section{Présentation du Matériel Utilisé}
+
+La solution mise en place repose sur un ensemble de composants matériels physiques, choisis pour leur fiabilité, leur facilité d'intégration et leur faible coût.
+
+\subsection{Microcontrôleur : ESP32 DevKit V1}
+Le cœur du système embarqué est la carte \textbf{ESP32 DevKit V1}. Il s'agit d'un microcontrôleur à deux cœurs (Xtensa LX6, 240 MHz) développé par Espressif Systems. Sa caractéristique principale et déterminante pour ce projet est sa connectivité \textbf{Wi-Fi 802.11 b/g/n intégrée}, qui lui permet de communiquer directement avec notre serveur Node.js via des requêtes HTTP, sans avoir besoin d'un module réseau supplémentaire.
+
+Ses autres atouts techniques incluent :
+\begin{itemize}
+    \item 520 Ko de RAM interne et 4 Mo de Flash.
+    \item De nombreuses broches GPIO (entrées/sorties numériques et analogiques) pour connecter les capteurs.
+    \item Alimentation via port USB (5V) ou directement via les broches VIN/GND.
+    \item Compatibilité avec l'environnement de développement Arduino IDE et le langage C++.
+\end{itemize}
+
+\subsection{Capteur Température et Humidité : DHT11}
+Pour la supervision climatique, nous avons utilisé le capteur \textbf{DHT11}. Ce capteur numérique est très répandu pour l'initiation à l'IoT. Il mesure à la fois la température (de 0°C à +50°C avec une précision de ±2°C) et le taux d'humidité relative (de 20\% à 90\% RH avec une précision de ±5\%). 
+
+Sa communication avec l'ESP32 s'effectue via un protocole \textbf{Single-Wire} sur une seule broche de données. Une résistance de tirage (\textit{pull-up}) de 10 k$\Omega$ est nécessaire entre la broche de données et l'alimentation (VCC). Bien qu'il soit moins précis que son grand frère le DHT22, le DHT11 offre un rapport qualité/prix optimal et des performances largement suffisantes pour démontrer la viabilité de notre système d'alerte.
+
+\subsection{Lecteur RFID : RC522}
+Le contrôle des accès est assuré par le module \textbf{MFRC522}, un lecteur de cartes sans contact qui fonctionne à la fréquence de \textbf{13,56 MHz} (norme ISO 14443A). Ce module communique avec l'ESP32 via le bus \textbf{SPI} (Serial Peripheral Interface) à haute vitesse, utilisant 4 fils de données (MOSI, MISO, SCK, SS).
+
+Son rôle est de lire l'\textbf{UID (Unique IDentifier)} -- un code hexadécimal unique -- de chaque badge ou carte RFID présenté à moins de 5 cm du lecteur. Cet UID est ensuite transmis à l'ESP32 qui le relaie au serveur Node.js pour vérification en base de données.
+
+    \subsection{Indicateur Visuel : LED RGB}
+    Pour fournir un retour visuel instantané lors de la lecture d'un badge, une \textbf{LED RGB à cathode commune} a été intégrée au circuit. Ses trois broches de couleur (Rouge, Vert, Bleu) sont connectées à trois sorties PWM de l'ESP32. Cela permet d'allumer la LED en \textbf{Vert} si l'accès est autorisé, en \textbf{Rouge} si l'accès est refusé, et en \textbf{Bleu} pour signaler visuellement un dépassement de seuil climatique (surchauffe ou humidité excessive), offrant ainsi une indication claire au collaborateur sur place.
+    
+    \subsection{Schéma de Câblage}
+    Les connexions entre les composants physiques sont les suivantes :
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Composant} & \textbf{Broche Composant} & \textbf{Broche ESP32} \\
+        \hline
+        DHT11 & VCC & 3.3V \\
+        DHT11 & GND & GND \\
+        DHT11 & DATA & GPIO 4 \\
+        \hline
+        RC522 (RFID) & VCC (3.3V) & 3.3V \\
+        RC522 (RFID) & GND & GND \\
+        RC522 (RFID) & SCK & GPIO 18 \\
+        RC522 (RFID) & MOSI & GPIO 23 \\
+        RC522 (RFID) & MISO & GPIO 19 \\
+        RC522 (RFID) & SS (SDA) & GPIO 5 \\
+        RC522 (RFID) & RST & GPIO 22 \\
+        \hline
+        LED RGB & Broche R (Rouge) & GPIO 25 \\
+        LED RGB & Broche G (Vert) & GPIO 26 \\
+        LED RGB & Broche B (Bleu) & GPIO 27 \\
+        LED RGB & Cathode & GND \\
+        \hline
+    \end{tabular}
+    \caption{Tableau de câblage ESP32 / DHT11 / RC522 / LED RGB}
+\end{table}
+
+% TODO: Ajouter une photo du montage matériel réel ici
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.75\textwidth]{montage_physique.jpg}
+    \caption{Montage physique : ESP32, capteur DHT11, lecteur RFID RC522 et LED RGB}
+\end{figure}
+
+\section{Objectifs du Projet}
+Pour répondre à la problématique identifiée, les objectifs suivants ont été définis et réalisés :
+\begin{itemize}
+    \item \textbf{Supervision climatique en temps réel} : Collecter les données de température et d'humidité du capteur DHT11 via l'ESP32 et les transmettre toutes les 10 secondes au serveur backend via une requête HTTP POST.
+    \item \textbf{Contrôle d'accès par badge RFID} : Lire l'UID de chaque badge présenté au lecteur RC522, l'envoyer au serveur pour vérification en base de données, et afficher le résultat (accès autorisé / refusé).
+    \item \textbf{Alertes e-mail automatiques} : Générer et envoyer automatiquement un e-mail d'alerte aux administrateurs dès que la température dépasse 28°C, l'humidité dépasse 70\%, ou qu'une tentative d'intrusion est détectée (badge refusé 3 fois consécutives).
+    \item \textbf{Tableau de bord web centralisé} : Centraliser toutes les informations en temps réel sur une interface web React accessible depuis n'importe quel poste du réseau interne.
+    \item \textbf{Assistant IA contextuel} : Intégrer un chatbot basé sur le modèle LLaMA 3 (via l'API Groq) capable de répondre aux questions des techniciens en intégrant automatiquement les données en direct des salles dans ses réponses.
+\end{itemize}
+
+\section{Cahier des Charges Fonctionnel et Technique}
+
+\subsection{Composants Matériels (Hardware)}
+\begin{itemize}
+    \item \textbf{Microcontrôleur} : Carte \textbf{ESP32 DevKit V1} avec Wi-Fi intégré, programmée en C++ via Arduino IDE.
+    \item \textbf{Capteur climatique} : \textbf{DHT11} pour la mesure de température ($\pm$2°C) et d'humidité ($\pm$5\%).
+    \item \textbf{Lecteur RFID} : Module \textbf{MFRC522} (RC522), communication SPI à 13,56 MHz.
+    \item \textbf{Indicateur visuel} : \textbf{LED RGB} (Cathode commune) pour le retour d'état de l'accès.
+    \item \textbf{Badges} : Cartes et porte-clés RFID passifs au format ISO 14443A.
+\end{itemize}
+
+\subsection{Composants Logiciels (Software)}
+\begin{itemize}
+    \item \textbf{Firmware ESP32 (C++ / Arduino IDE)} : Le code embarqué sur la carte ESP32 est développé en C++ avec l'environnement Arduino IDE. Il orchestre en temps réel la lecture du capteur DHT11 (via la bibliothèque \texttt{DHT.h}), la communication SPI avec le lecteur RFID RC522 (via \texttt{MFRC522.h}), et les échanges réseau avec le serveur (via \texttt{WiFi.h} et \texttt{HTTPClient.h}). Un mécanisme de reconnexion Wi-Fi automatique garantit la continuité de service.
+
+    \item \textbf{Back-end (Node.js / Express.js)} : Le serveur applicatif est développé avec \textbf{Node.js} et le framework \textbf{Express.js}. Il expose une API REST organisée en contrôleurs métier (accès, capteurs, badges, chatbot, alertes). Son architecture asynchrone (basée sur les Promesses et \texttt{async/await}) lui permet de gérer simultanément les requêtes de l'ESP32, du frontend et des appels à l'API Groq sans blocage.
+
+    \item \textbf{Base de données (SQLite / Sequelize)} : La persistance des données est assurée par \textbf{SQLite}, une base de données embarquée ne nécessitant pas de serveur dédié, ce qui simplifie le déploiement sur le réseau interne de LEONI. Elle est gérée via l'ORM \textbf{Sequelize} qui permet de définir les modèles (Salle, Badge, Historique, Mesure, Autorisation) en JavaScript et de générer automatiquement le schéma de la base.
+
+    \item \textbf{Front-end (React.js / Vite)} : L'interface utilisateur est une \textbf{Single Page Application (SPA)} développée avec \textbf{React.js} (bundlée avec Vite pour des performances optimales). Elle est composée de pages modulaires (Dashboard, Badges, Historique, Chatbot) et communique avec le backend via la bibliothèque \textbf{Axios}. Les graphiques climatiques sont rendus dynamiquement grâce aux données récupérées par l'API.
+
+    \item \textbf{Service d'alertes (Nodemailer / SMTP)} : \textbf{Nodemailer} est intégré au backend pour envoyer des e-mails HTML formatés en cas d'anomalie critique. Un mécanisme de \textbf{cooldown} (délai de 5 minutes entre deux alertes identiques) est implémenté pour éviter le spam dans la boîte mail des administrateurs.
+
+    \item \textbf{Intelligence Artificielle (Groq SDK / LLaMA 3.3 70B)} : Le SDK officiel \textbf{Groq} est intégré directement dans le backend Node.js. Il permet d'appeler le modèle \textbf{LLaMA 3.3 70B Versatile} avec un \textit{System Prompt} enrichi dynamiquement par les données en temps réel de la base (température, humidité, historique). Les réponses sont transmises au frontend en mode \textbf{streaming (SSE)} pour un affichage fluide mot par mot. La bibliothèque \textbf{googlethis} est utilisée en complément pour permettre des recherches web en temps réel.
+\end{itemize}
+
+% ==========================================
+% CHAPITRE 3
+% ==========================================
+\chapter{Conception et Modélisation}
+
+\section{Méthodologie de Conduite de Projet}
+L'approche adoptée repose sur le principe de développement \textbf{itératif et incrémental}. Le projet a été découpé en plusieurs sprints successifs :
+\begin{enumerate}
+    \item Analyse des besoins et conception de l'architecture globale.
+    \item Mise en place de la base de données et de l'API REST (backend Node.js).
+    \item Développement de l'interface web (frontend React).
+    \item Programmation du firmware C++ sur la carte ESP32 et câblage physique des capteurs.
+    \item Intégration du moteur d'Intelligence Artificielle (Groq / LLaMA 3).
+    \item Tests d'intégration bout en bout, corrections et déploiement.
+\end{enumerate}
+
+\section{Architecture Générale du Système}
+L'application est structurée selon une \textbf{architecture 3-tiers} combinant une couche IoT physique, un serveur applicatif et un client web :
+\begin{itemize}
+    \item \textbf{Couche IoT (Edge)} : La carte ESP32 lit les données des capteurs (DHT11, RC522), gère la LED RGB, et transmet les données au serveur via des requêtes HTTP POST sur le réseau Wi-Fi local.
+    \item \textbf{Couche Backend (Serveur)} : Le serveur Node.js/Express reçoit les données, les stocke dans SQLite via Sequelize, déclenche les alertes e-mail si besoin, et expose des endpoints REST pour le frontend et le moteur IA.
+    \item \textbf{Couche Frontend (Client Web)} : L'interface React consomme les endpoints de l'API pour afficher le tableau de bord en temps réel, gérer les badges, consulter les historiques et interagir avec le chatbot IA.
+\end{itemize}
+
+% TODO: Insérer ici le schéma de l'architecture globale
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{architecture_globale.png}
+    \caption{Architecture globale du système LEONI Control Center (3-Tiers)}
+\end{figure}
+
+% ------------------------------------------
+\section{Diagramme des Cas d'Utilisation}
+% ------------------------------------------
+
+Le diagramme des cas d'utilisation (Use Case) identifie les \textbf{acteurs} du système et les \textbf{fonctionnalités} auxquelles ils ont accès.
+
+\subsection{Acteurs du système}
+\begin{itemize}
+    \item \textbf{Manager IT} : Acteur principal disposant de tous les droits. Il peut superviser les salles, gérer les badges (ajout, suppression, modification des rôles), consulter l'historique complet et accéder à l'assistant IA.
+    \item \textbf{Technicien (Support)} : Peut consulter le tableau de bord, l'état des salles et interagir avec le chatbot/voicebot, mais ne peut pas modifier les badges.
+    \item \textbf{Nouvelle Recrue} : Peut interagir avec le chatbot pour se former et apprendre les procédures, avec un accès en lecture seule.
+    \item \textbf{ESP32 (Capteur IoT)} : Acteur non-humain qui envoie automatiquement les mesures de température/humidité et les lectures de badges RFID au serveur.
+    \item \textbf{Système d'alertes (Automatique)} : Acteur système qui surveille les seuils et déclenche les e-mails d'alerte sans intervention humaine.
+\end{itemize}
+
+\subsection{Cas d'utilisation principaux}
+\begin{itemize}
+    \item S'authentifier sur l'application web.
+    \item Consulter le tableau de bord en temps réel (température, humidité, état des salles).
+    \item Gérer les badges RFID (ajouter, modifier le rôle, supprimer).
+    \item Consulter l'historique des accès par salle et par badge.
+    \item Interroger le chatbot IA en mode texte (questions libres).
+    \item Utiliser le voicebot (mode vocal : parler et écouter la réponse).
+    \item Recevoir une alerte e-mail automatique (température critique, intrusion).
+    \item Visualiser les courbes historiques des mesures climatiques.
+\end{itemize}
+
+% TODO: Insérer ici le diagramme de cas d'utilisation (généré avec StarUML, draw.io ou PlantUML)
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{use_case.png}
+    \caption{Diagramme des Cas d'Utilisation du système LEONI Control Center}
+\end{figure}
+
+% ------------------------------------------
+\section{Diagramme de Classes}
+% ------------------------------------------
+
+Le diagramme de classes représente la structure statique de la base de données et les relations entre les entités métier de l'application. Cinq classes principales ont été identifiées :
+
+\begin{itemize}
+    \item \textbf{Salle} : \texttt{id}, \texttt{nom} (ex: "Main", "Backup"), \texttt{temperature}, \texttt{humidite}, \texttt{createdAt}. C'est l'entité centrale du système.
+    \item \textbf{Badge} : \texttt{id}, \texttt{uid} (code hexadécimal unique), \texttt{nom}, \texttt{role} (Manager / Support), \texttt{email}. Représente un collaborateur et son badge physique.
+    \item \textbf{Autorisation} : Table d'association (many-to-many) entre Badge et Salle. Un badge peut être autorisé dans plusieurs salles, et une salle peut autoriser plusieurs badges. Contient \texttt{badgeId} et \texttt{salleId}.
+    \item \textbf{Historique} : \texttt{id}, \texttt{badgeId}, \texttt{salleId}, \texttt{statut} (Autorisé / Refusé), \texttt{timestamp}. Journalise chaque tentative d'accès physique.
+    \item \textbf{Mesure} : \texttt{id}, \texttt{salleId}, \texttt{temperature}, \texttt{humidite}, \texttt{timestamp}. Enregistre les relevés périodiques des capteurs pour construire les courbes historiques.
+\end{itemize}
+
+\textbf{Relations entre classes :}
+\begin{itemize}
+    \item Une \textbf{Salle} possède plusieurs \textbf{Mesures} (1 -- *).
+    \item Un \textbf{Badge} est lié à plusieurs \textbf{Salles} via \textbf{Autorisation} (relation many-to-many).
+    \item Chaque entrée dans \textbf{Historique} est associée à exactement un \textbf{Badge} et une \textbf{Salle}.
+\end{itemize}
+
+% TODO: Insérer ici le diagramme de classes UML
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{diagramme_classes.png}
+    \caption{Diagramme de Classes UML de la base de données}
+\end{figure}
+
+% ------------------------------------------
+\section{Diagrammes de Séquence}
+% ------------------------------------------
+
+Les diagrammes de séquence illustrent les interactions dynamiques entre les composants du système pour les scénarios les plus importants.
+
+\subsection{Scénario 1 : Vérification d'un Badge RFID}
+Ce scénario décrit le flux complet lorsqu'un collaborateur présente son badge devant le lecteur RFID :
+
+\begin{enumerate}
+    \item Le badge est approché du lecteur RC522. L'ESP32 lit l'UID hexadécimal du badge.
+    \item L'ESP32 envoie une requête \texttt{HTTP POST /api/acces/verifier} au serveur Node.js, avec l'UID et l'identifiant de la salle.
+    \item Le serveur interroge la base de données SQLite : vérifie si le badge existe et s'il est autorisé pour cette salle.
+    \item \textbf{Si autorisé} : le serveur retourne \texttt{200 OK \{accès: "autorisé"\}}. L'ESP32 déclenche l'ouverture de la porte, allume la \textbf{LED RGB en Vert} pendant 3 secondes, et enregistre l'accès dans l'Historique.
+    \item \textbf{Si refusé} : le serveur retourne \texttt{403 \{accès: "refusé"\}}. L'ESP32 allume la \textbf{LED RGB en Rouge}. Si c'est la 3\textsuperscript{e} tentative consécutive échouée, le serveur envoie automatiquement un \textbf{e-mail d'alerte d'intrusion}.
+\end{enumerate}
+
+% TODO: Insérer ici le diagramme de séquence RFID
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{seq_rfid.png}
+    \caption{Diagramme de Séquence : Vérification d'un badge RFID}
+\end{figure}
+
+\subsection{Scénario 2 : Interaction avec le Chatbot / Voicebot IA}
+Ce scénario décrit le flux d'une interaction utilisateur avec l'assistant intelligent :
+
+\begin{enumerate}
+    \item L'utilisateur saisit une question en texte \textbf{OU} active le microphone (Voicebot) pour dicter sa question.
+    \item Si mode vocal : l'API \textbf{Web Speech API} du navigateur transcrit la parole en texte.
+    \item Le frontend React envoie la question au serveur via \texttt{HTTP POST /api/chatbot/query}.
+    \item Le serveur Node.js enrichit la question avec un \textbf{System Prompt contextuel} : il injecte automatiquement l'état actuel des salles (température, humidité, rôle de l'utilisateur connecté).
+    \item Le serveur appelle l'\textbf{API Groq Cloud} avec ce prompt enrichi et le modèle LLaMA 3.3 70B.
+    \item L'API Groq retourne la réponse générée en \textbf{streaming} (SSE -- Server-Sent Events).
+    \item Le frontend affiche la réponse mot par mot au fur et à mesure.
+    \item Si mode vocal : la réponse textuelle est lue à voix haute via l'API \textbf{Web Speech Synthesis}.
+\end{enumerate}
+
+% TODO: Insérer ici le diagramme de séquence Chatbot
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{seq_chatbot.png}
+    \caption{Diagramme de Séquence : Interaction Chatbot / Voicebot IA}
+\end{figure}
+
+\subsection{Scénario 3 : Remontée des Données Capteurs et Alerte}
+Ce scénario décrit l'envoi périodique des mesures climatiques par l'ESP32 :
+
+\begin{enumerate}
+    \item Toutes les 10 secondes, l'ESP32 lit la température et l'humidité via le capteur DHT11.
+    \item Il envoie les valeurs au serveur via \texttt{HTTP POST /api/capteurs/mesure} avec l'identifiant de la salle.
+    \item Le serveur enregistre la mesure dans la table \textbf{Mesure} de la base de données.
+    \item Le serveur compare les valeurs avec les seuils critiques (température $>$ 28°C ou humidité $>$ 70\%).
+    \item Si un seuil est dépassé : l'ESP32 allume immédiatement la \textbf{LED RGB en Bleu} pour alerter les techniciens présents physiquement. En parallèle, si le délai de cooldown (5 minutes) est écoulé, le serveur envoie un \textbf{e-mail d'alerte automatique} via Nodemailer/SMTP aux administrateurs enregistrés.
+    \item Le frontend, qui scrute l'API en temps réel, met à jour instantanément les jauges du tableau de bord.
+\end{enumerate}
+
+% TODO: Insérer ici le diagramme de séquence Capteurs
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{seq_capteurs.png}
+    \caption{Diagramme de Séquence : Remontée des mesures IoT et alerte e-mail}
+\end{figure}
+
+% ------------------------------------------
+\section{Modélisation des Données (MCD)}
+% ------------------------------------------
+
+Le Modèle Conceptuel de Données synthétise l'ensemble des entités décrites dans le diagramme de classes et leurs cardinalités :
+
+\begin{itemize}
+    \item \textbf{Salle} (1) --- possède --- (*) \textbf{Mesure}
+    \item \textbf{Badge} (*) --- autorisé dans --- (*) \textbf{Salle} (via la table \textbf{Autorisation})
+    \item \textbf{Badge} (1) --- génère --- (*) \textbf{Historique}
+    \item \textbf{Salle} (1) --- est associée à --- (*) \textbf{Historique}
+\end{itemize}
+
+% TODO: Insérer ici le diagramme MCD / ERD
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.85\textwidth]{mcd.png}
+    \caption{Modèle Conceptuel de Données (MCD / ERD)}
+\end{figure}
+
+% ==========================================
+% CHAPITRE 4
+% ==========================================
+\chapter{Développement, Implémentation et Résultats}
+
+\section{Environnement de Développement}
+\begin{itemize}
+    \item \textbf{IDE} : Microsoft Visual Studio Code
+    \item \textbf{Stack Backend} : Node.js, Express.js, Sequelize ORM
+    \item \textbf{Stack Frontend} : React.js, Vite, Vanilla CSS
+    \item \textbf{API IA} : Groq SDK (Utilisation du modèle LLaMA 3 70B)
+    \item \textbf{Services tiers} : Nodemailer pour l'envoi d'e-mails réels (SMTP).
+\end{itemize}
+
+\section{Réalisation des Fonctionnalités Clés}
+
+\subsection{1. Le Module IoT et Contrôle d'Accès}
+Le code C++ embarqué sur l'ESP32 physique intercepte chaque passage de carte sur le lecteur RFID RC522. L'identifiant hexadécimal (UID) est lu puis envoyé via Wi-Fi à l'endpoint \texttt{/api/acces/verifier}. Le backend Node.js vérifie alors les droits en base de données. Selon la réponse, l'ESP32 allume la LED RGB (Vert/Rouge). Si l'accès est refusé 3 fois consécutivement, une suspicion d'intrusion est détectée et une \textbf{alerte e-mail} est immédiatement envoyée aux administrateurs réseau.
+
+% TODO: Remplacer "log_serie_iot.png" par une capture d'écran de la console série d'Arduino IDE ou une photo du matériel en action
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{log_serie_iot.png}
+    \caption{Fonctionnement matériel : Trace d'exécution sur le moniteur série de l'ESP32}
+\end{figure}
+
+\subsection{2. Accueil et Authentification}
+Dès l'ouverture de l'application, l'utilisateur est accueilli par une \textbf{Landing Page} moderne présentant les fonctionnalités du LEONI Control Center. Pour accéder aux données sensibles, une authentification sécurisée par badge administrateur est requise. L'interface de connexion garantit que seul le personnel autorisé (Manager IT, Support) accède à la supervision.
+
+% TODO: Remplacer "landing_page.png" par une capture de la page d'accueil
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{landing_page.png}
+    \caption{Interface d'Accueil (Landing Page) du système}
+\end{figure}
+
+% TODO: Remplacer "login.png" par une capture de la page de connexion
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.6\textwidth]{login.png}
+    \caption{Interface d'Authentification sécurisée}
+\end{figure}
+
+\subsection{3. Gestion Multi-Sites et Salles}
+Étant donné la taille de l'infrastructure de LEONI Tunisia, la supervision n'est pas limitée à une seule entité. L'application propose une structure hiérarchique \textbf{Multi-Sites} incluant les différents sites de l'entreprise (par exemple : TNS, TNM, TN4). Au sein de chaque site, l'utilisateur peut choisir précisément la salle serveur à inspecter (comme la salle "Main" ou la salle "Backup"). Il est à noter que l'accès à ces infrastructures est sécurisé par un système de gestion des rôles : seul un administrateur ayant le rôle de « Manager » possède une visibilité globale sur l'intégralité des sites, tandis que les techniciens n'ont accès qu'aux salles qui leur sont spécifiquement assignées. Cette architecture modulaire permet de faire évoluer facilement le système pour intégrer de nouveaux sites et de nouvelles salles à l'avenir.
+
+% TODO: Remplacer "multisite.png" par une capture de la page de choix du site et de la salle
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.8\textwidth]{multisite.png}
+    \caption{Sélection Multi-Sites : Choix du site et de la salle serveur à superviser}
+\end{figure}
+
+\subsection{4. Le Tableau de Bord Interactif (Dashboard) et Courbes}
+Une fois le site sélectionné, l'application Web React offre un Dashboard global. En un coup d'œil, le manager IT consulte les jauges de température et d'humidité en temps réel remontées par l'ESP32. De plus, des \textbf{courbes graphiques} dynamiques permettent de visualiser l'évolution du climat dans la salle sur les dernières heures.
+
+% TODO: Remplacer "dashboard.png" par une capture d'écran du tableau de bord global (jauges)
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{dashboard.png}
+    \caption{Interface de Supervision : Tableau de bord et métriques en temps réel}
+\end{figure}
+
+% TODO: Remplacer "courbes.png" par une capture d'écran montrant les courbes d'historique
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{courbes.png}
+    \caption{Visualisation statistique : Courbes d'évolution de température et d'humidité}
+\end{figure}
+
+\subsection{5. Gestion des Badges et Utilisateurs}
+Une page dédiée est réservée aux administrateurs pour gérer les autorisations physiques. L'interface liste tous les badges enregistrés dans la base SQLite. Elle permet l'ajout de nouveaux badges, la révocation, ou la modification des rôles (Manager, Support).
+
+% TODO: Remplacer "gestion_badges.png" par une capture de la liste des badges
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{gestion_badges.png}
+    \caption{Interface d'Administration : Gestion des badges et des autorisations}
+\end{figure}
+
+\subsection{6. Historique et Traçabilité des Accès}
+Pour répondre à l'exigence de traçabilité, une vue permet de consulter l'historique complet de la salle. On y retrouve la date exacte, l'identité du collaborateur, et le statut (Autorisé ou Refusé), ce qui permet d'auditer rapidement un incident.
+
+% TODO: Remplacer "historique_acces.png" par une capture de la liste des accès
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{historique_acces.png}
+    \caption{Traçabilité : Historique détaillé des passages RFID par salle}
+\end{figure}
+
+\subsection{7. Système d'Alerte Automatique (E-mail)}
+Lorsqu'une anomalie critique est détectée (température $>$ 28°C, humidité $>$ 70\%, ou 3 accès refusés consécutifs), le backend Node.js déclenche immédiatement l'envoi d'un e-mail d'urgence via Nodemailer au manager d'astreinte.
+
+% TODO: Remplacer "alerte_email_temp.png" par une capture d'écran de l'e-mail d'alerte de température
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{alerte_email_temp.png}
+    \caption{Notification d'alerte critique reçue par e-mail (Surchauffe / Température élevée)}
+\end{figure}
+
+% TODO: Remplacer "alerte_email_hum.png" par une capture d'écran de l'e-mail d'alerte d'humidité
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.7\textwidth]{alerte_email_hum.png}
+    \caption{Notification d'alerte critique reçue par e-mail (Humidité excessive)}
+\end{figure}
+
+\subsection{8. Le Chatbot / Voicebot IA (Assistant Virtuel LEONI)}
+L'intégration de l'IA transforme l'application en un véritable \textbf{expert IT virtuel disponible 24/7}. Son but principal est double : \textbf{accélérer la formation des nouvelles recrues} sur les procédures LEONI, et \textbf{assister les techniciens} dans le diagnostic instantané des incidents. 
+
+Propulsé par le modèle \textbf{LLaMA 3.3 70B Versatile} via l'API Groq, cet assistant raisonne en langage naturel et s'appuie sur des mécanismes avancés :
+
+\begin{itemize}
+    \item \textbf{Injection de contexte en temps réel} : À chaque requête, le backend Node.js capture l'état instantané de la base de données (température et humidité des salles, derniers passages de badges, dernières alertes e-mail) et l'injecte dynamiquement dans le \textit{System Prompt}. L'IA "connaît" donc la situation actuelle de l'infrastructure.
+    \item \textbf{Recherche Web Intégrée} : L'assistant est capable d'effectuer des recherches sur Internet en temps réel. Si un utilisateur pose une question hors du contexte de la salle (par exemple, des informations sur le groupe LEONI ou des procédures générales), l'IA récupère les données sur le Web et les synthétise pour fournir une réponse précise.
+    \item \textbf{Capacités agentiques (Actions)} : L'assistant n'est pas seulement consultatif. Si un utilisateur lui demande d'envoyer une alerte, l'agent détecte cette intention et déclenche automatiquement l'envoi d'un e-mail à l'équipe IT avec le récapitulatif de la situation.
+    \item \textbf{Interaction vocale et Streaming (SSE)} : L'utilisateur peut interagir à la voix (Voicebot). Les réponses sont générées et affichées en temps réel (mot par mot) grâce à la technologie \textit{Server-Sent Events} (SSE), offrant une fluidité maximale sans temps d'attente.
+    \item \textbf{Mode de secours (Fallback Local)} : En cas de coupure Internet ou d'indisponibilité de l'API externe, le système bascule sur un algorithme de secours local capable de répondre aux questions critiques de base (température actuelle, dernier accès) pour garantir une continuité de service.
+\end{itemize}
+
+% TODO: Remplacer "chatbot.png" par une capture d'écran de la fenêtre Chatbot posant une question
+\begin{figure}[h]
+    \centering
+    % \includegraphics[width=0.75\textwidth]{chatbot.png}
+    \caption{Interface de l'Assistant Virtuel IA : Exemple de réponse contextuelle}
+\end{figure}
+
+\section{Tests et Validation}
+Une campagne de tests rigoureuse a été menée tout au long du développement pour valider chaque fonctionnalité du système de bout en bout. Les tests ont été organisés en trois niveaux : tests unitaires sur chaque composant, tests d'intégration entre les couches, et tests système avec l'ESP32 physique.
+
+\subsection{Tests du Module IoT (ESP32)}
+\begin{itemize}
+    \item \textbf{Test de lecture DHT11} : Des valeurs de température et d'humidité ont été lues en continu sur la console série (moniteur Arduino). Les valeurs affichées (ex : 31.6°C, 59\%) ont été comparées à un thermomètre de référence pour valider la précision du capteur. \textbf{Résultat : ✓ Conforme}.
+    \item \textbf{Test de lecture RFID} : Chaque badge (carte et porte-clés) a été présenté au lecteur RC522. L'UID hexadécimal affiché sur la console série a été comparé à l'UID enregistré en base de données. \textbf{Résultat : ✓ Lecture fiable à moins de 4 cm}.
+    \item \textbf{Test de la LED RGB} : Les trois scénarios (accès autorisé → Vert, accès refusé → Rouge, alerte climatique → Bleu) ont été déclenchés manuellement pour vérifier la réponse visuelle. \textbf{Résultat : ✓ Correct}.
+    \item \textbf{Test de reconnexion Wi-Fi} : La connexion au point d'accès a été coupée volontairement. L'ESP32 a détecté la déconnexion et s'est reconnecté automatiquement en moins de 20 secondes. \textbf{Résultat : ✓ Continuité de service assurée}.
+\end{itemize}
+
+\subsection{Tests de l'API Backend (Node.js)}
+\begin{itemize}
+    \item \textbf{Test de l'endpoint \texttt{POST /api/acces/verifier}} : Des requêtes ont été envoyées avec des UIDs autorisés et non-autorisés via l'outil Postman. Le serveur a retourné les codes HTTP corrects (\texttt{200 OK} pour autorisé, \texttt{403 Forbidden} pour refusé). \textbf{Résultat : ✓ Logique métier validée}.
+    \item \textbf{Test des alertes e-mail} : La température a été manuellement simulée au-dessus de 28°C en base de données. Un e-mail d'alerte HTML complet a été reçu dans la boîte mail de test en moins de 5 secondes. Le mécanisme de cooldown a également été validé. \textbf{Résultat : ✓ Alerte reçue avec succès}.
+    \item \textbf{Test de l'endpoint Chatbot (streaming SSE)} : Des requêtes ont été envoyées au chatbot et la réponse a été vérifiée mot par mot via les Server-Sent Events. La réponse contextuelle incluait bien les données en temps réel des salles. \textbf{Résultat : ✓ Streaming fonctionnel}.
+\end{itemize}
+
+\subsection{Tests de l'Interface Utilisateur (Frontend React)}
+\begin{itemize}
+    \item \textbf{Test du tableau de bord en temps réel} : Les jauges de température et d'humidité ont été vérifiées après chaque envoi de l'ESP32 (toutes les 10s). La mise à jour de l'interface sans rechargement de page a été confirmée. \textbf{Résultat : ✓ Temps réel validé}.
+    \item \textbf{Test de la gestion des badges} : Ajout, modification du rôle et suppression d'un badge via l'interface. La persistance en base de données et la mise à jour immédiate de la liste ont été vérifiées. \textbf{Résultat : ✓ CRUD fonctionnel}.
+    \item \textbf{Test du Voicebot} : La reconnaissance vocale a été testée sur différentes questions en français. La transcription en texte, l'appel au chatbot et la restitution vocale de la réponse ont été validés. \textbf{Résultat : ✓ Interface vocale fonctionnelle}.
+\end{itemize}
+
+\subsection{Tableau Récapitulatif des Tests}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|c|}
+        \hline
+        \textbf{Fonctionnalité testée} & \textbf{Méthode} & \textbf{Résultat} \\
+        \hline
+        Lecture capteur DHT11 & Moniteur série Arduino & ✓ OK \\
+        Lecture badge RFID RC522 & Présentation physique de cartes & ✓ OK \\
+        LED RGB (3 états) & Test manuel & ✓ OK \\
+        Reconnexion Wi-Fi automatique & Coupure réseau volontaire & ✓ OK \\
+        API vérification badge & Postman (POST) & ✓ OK \\
+        Alerte e-mail température & Simulation de seuil & ✓ OK \\
+        Alerte e-mail humidité & Simulation de seuil & ✓ OK \\
+        Streaming SSE Chatbot IA & Test navigateur & ✓ OK \\
+        Dashboard temps réel & Observation en direct & ✓ OK \\
+        Voicebot (voix → réponse) & Test microphone & ✓ OK \\
+        Gestion badges (CRUD) & Interface React & ✓ OK \\
+        \hline
+    \end{tabular}
+    \caption{Tableau récapitulatif des tests de validation du système}
+\end{table}
+
+
+% ==========================================
+% CHAPITRE 5
+% ==========================================
+\chapter{Bilan et Apprentissages}
+
+\section{Bilan du Projet}
+Le projet LEONI Control Center a été mené à son terme avec succès dans les délais impartis. L'ensemble des objectifs définis en début de stage ont été atteints : supervision climatique en temps réel via l'ESP32, contrôle d'accès RFID avec journalisation automatique, tableau de bord React interactif, système d'alertes e-mail automatiques et intégration d'un assistant IA polyvalent.
+
+Sur le plan de la valeur ajoutée pour l'entreprise, ce système remplace entièrement les pratiques manuelles qui existaient auparavant. La réactivité face aux incidents (surchauffe, intrusion) est désormais quasi-instantanée, contre plusieurs dizaines de minutes dans l'ancien workflow. L'assistant IA constitue une innovation notable dans le contexte industriel LEONI : il réduit le temps d'onboarding des nouvelles recrues et libère les techniciens seniors des questions répétitives.
+
+\section{Difficultés Rencontrées et Solutions Apportées}
+Le développement de ce projet a comporté plusieurs défis techniques que j'ai dû résoudre de manière autonome :
+
+\begin{itemize}
+    \item \textbf{Problème de câblage SPI (RFID RC522)} : Au démarrage, le lecteur RFID n'était pas détecté par l'ESP32. Après diagnostic via la console série (lecture du registre \texttt{VersionReg}), j'ai découvert une confusion entre les broches MOSI/MISO. La correction du câblage physique a résolu le problème. \textit{Leçon : toujours vérifier les connexions SPI avec un code de diagnostic avant de tester la logique applicative.}
+
+    \item \textbf{Problème CORS (Cross-Origin Resource Sharing)} : Le frontend React (port 5173) ne pouvait pas communiquer avec le backend Node.js (port 5000) en raison de la politique de sécurité CORS des navigateurs. La solution a été de configurer le middleware \texttt{cors()} dans Express avec les origines autorisées.
+
+    \item \textbf{Latence de l'API Groq et expérience utilisateur} : Les premières versions du chatbot affichaient toute la réponse d'un coup après une longue attente. J'ai implémenté le mode \textbf{streaming SSE (Server-Sent Events)} pour afficher la réponse mot par mot dès sa génération, améliorant drastiquement la fluidité perçue.
+
+    \item \textbf{Gestion des alertes e-mail répétitives} : Sans mécanisme de contrôle, le serveur envoyait un e-mail à chaque cycle de 10 secondes si la température restait élevée, saturant la boîte mail. J'ai implémenté un système de \textbf{cooldown} (délai minimum de 5 minutes entre deux alertes du même type) pour régler ce problème.
+
+    \item \textbf{Synchronisation IP entre l'ESP32 et le serveur} : L'adresse IP du serveur backend changeait parfois en raison de l'attribution DHCP du routeur. J'ai documenté la procédure de vérification d'IP (\texttt{ipconfig}) et préconisé l'attribution d'une IP statique sur le réseau local de LEONI pour une utilisation en production.
+\end{itemize}
+
+\section{Compétences Techniques Acquises}
+Ce stage m'a permis de développer et de consolider un large éventail de compétences techniques :
+\begin{itemize}
+    \item \textbf{Développement Back-end (Node.js / Express.js)} : Conception d'une API REST complète et organisée en couches (routes, contrôleurs, modèles), gestion des middlewares, authentification et architecture asynchrone.
+    \item \textbf{Base de données (SQLite / Sequelize)} : Modélisation relationnelle (entités, associations many-to-many), utilisation d'un ORM pour les opérations CRUD et les migrations de schéma.
+    \item \textbf{Développement Front-end (React.js)} : Maîtrise des hooks React (\texttt{useState}, \texttt{useEffect}), consommation d'API REST avec Axios, gestion du state asynchrone et création d'interfaces dynamiques et réactives.
+    \item \textbf{Systèmes Embarqués IoT (ESP32 / C++)} : Programmation C++ avec Arduino IDE, intégration de capteurs (DHT11, RC522 via SPI), gestion de la connectivité Wi-Fi et communication HTTP depuis un microcontrôleur.
+    \item \textbf{Intelligence Artificielle Générative} : Intégration de LLM (LLaMA 3.3 70B via Groq), techniques de Prompt Engineering et de RAG (Retrieval-Augmented Generation) pour contextualiser les réponses avec des données en temps réel, implémentation du streaming SSE.
+    \item \textbf{DevOps et Outils} : Utilisation de Git pour le versioning, Postman pour les tests d'API, Arduino IDE pour le firmware, et Visual Studio Code comme environnement principal.
+\end{itemize}
+
+\section{Compétences Transversales Développées}
+Au-delà des compétences purement techniques, ce stage m'a fait progresser sur des dimensions essentielles à la vie professionnelle :
+
+\begin{itemize}
+    \item \textbf{Autonomie et prise d'initiative} : Face aux problèmes techniques non documentés (câblage, CORS, streaming), j'ai appris à chercher des solutions de manière autonome via la documentation officielle, les forums techniques et l'expérimentation.
+    \item \textbf{Compréhension du contexte industriel} : Évoluer dans un environnement de production automobile a renforcé ma conscience des enjeux de disponibilité, de fiabilité et de sécurité d'un système informatique critique.
+    \item \textbf{Rigueur et méthode} : La gestion d'un projet full-stack intégrant du hardware et du software m'a appris à travailler de manière structurée, à tester chaque composant indépendamment avant l'intégration, et à documenter mes choix techniques.
+    \item \textbf{Communication technique} : J'ai appris à présenter mes avancées et mes difficultés de manière claire à mon encadrant, à synthétiser des concepts techniques complexes pour des interlocuteurs non-spécialistes.
+\end{itemize}
+
+\section{Perspectives et Améliorations Futures}
+Le système développé constitue une base solide et fonctionnelle. Plusieurs axes d'amélioration peuvent être envisagés pour faire évoluer la plateforme :
+
+\begin{itemize}
+    \item \textbf{Application Mobile (iOS / Android)} : Développer une application React Native pour permettre aux managers de consulter le tableau de bord et de recevoir les alertes en temps réel sur leur smartphone, même hors du réseau local.
+    \item \textbf{Caméra de surveillance intégrée} : Ajouter un module caméra (ESP32-CAM) pour prendre une photo automatiquement en cas d'intrusion détectée (badge refusé 3 fois) et l'envoyer dans l'e-mail d'alerte.
+    \item \textbf{Déploiement sur réseau VLAN dédié} : Isoler le système IoT dans un VLAN dédié (ex: VLAN 20 - IoT/Capteurs) conformément aux bonnes pratiques de sécurité réseau de LEONI, en collaboration avec l'équipe Cisco/FortiGate.
+    \item \textbf{Intégration avec le système ERP SAP} : Récupérer automatiquement la liste du personnel autorisé depuis SAP pour synchroniser la base de données des badges sans intervention manuelle.
+    \item \textbf{Vue globale multi-sites sur une seule carte} : Créer une vue cartographique montrant l'état en temps réel de tous les sites LEONI Tunisia (TNS, TNM, TN4) sur une seule interface, permettant une supervision centralisée de l'ensemble de l'infrastructure.
+\end{itemize}
+
+
+% ==========================================
+% CONCLUSION GENERALE
+% ==========================================
+\chapter*{Conclusion Générale}
+\addcontentsline{toc}{chapter}{Conclusion Générale}
+Ce stage d'initiation professionnelle au sein du groupe LEONI Tunisia a été une expérience profondément enrichissante, tant sur le plan technique qu'humain. Il m'a permis d'évoluer dans un contexte industriel critique et d'y apporter une contribution concrète et durable.
+
+La problématique de départ était claire : la supervision des salles serveurs reposait sur des pratiques manuelles, lentes et peu fiables, exposant l'infrastructure IT à des risques importants. La réponse apportée par ce projet va bien au-delà d'un simple outil de monitoring. La plateforme \textbf{LEONI Control Center} est un système complet et intelligent qui \textbf{réunit l'IoT, le développement web full-stack et l'Intelligence Artificielle générative} dans une solution unique, opérationnelle et déployée sur le réseau interne de LEONI Tunisia.
+
+Ce qui rend ce projet particulièrement significatif, c'est sa dimension d'innovation : intégrer un assistant IA capable de raisonner sur les données en temps réel, de répondre à la voix et de déclencher des actions automatiques est une approche qui dépasse les standards habituels d'un projet de supervision industrielle. Il montre que l'IA peut aujourd'hui jouer un rôle central dans la gestion des infrastructures critiques.
+
+Sur le plan personnel, cette immersion confirme mon attrait pour l'ingénierie logicielle et les systèmes IoT, et constitue un socle solide pour la suite de mon parcours à l'ISIMG et dans ma carrière professionnelle.
+
+
+\end{document}

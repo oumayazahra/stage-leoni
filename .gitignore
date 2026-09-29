@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Local databases & logs
+*.sqlite
+*.sqlite3
+*.db
+*.log
+
+# Production build outputs
+dist/
+build/
+*.local
+
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+
+# TeX & LaTeX compilation outputs
+*.aux
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.out
+*.bbl
+*.blg
+
+# IDE and Editor files
+.vscode/
+.idea/
+.cursor/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS metadata
+.DS_Store
+Thumbs.db

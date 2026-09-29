@@ -1,0 +1,77 @@
+{
+  "version": 1,
+  "author": "Leoni - Stage 2026",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 100,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -100,
+      "left": 320,
+      "attrs": { "temperature": "24.5", "humidity": "58" }
+    },
+    {
+      "type": "board-rfid-rc522",
+      "id": "rfid",
+      "top": -120,
+      "left": -120,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledGreen",
+      "top": 200,
+      "left": 320,
+      "attrs": { "color": "green", "label": "ACCÈS OK" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 200,
+      "left": 280,
+      "attrs": { "resistance": "220" }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "ledRed",
+      "top": 250,
+      "left": 320,
+      "attrs": { "color": "red", "label": "ACCÈS REFUSÉ" }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 250,
+      "left": 280,
+      "attrs": { "resistance": "220" }
+    }
+  ],
+  "connections": [
+    ["esp:4",    "rfid:SDA",  "blue",    []],
+    ["esp:18",   "rfid:SCK",  "yellow",  []],
+    ["esp:23",   "rfid:MOSI", "orange",  []],
+    ["esp:19",   "rfid:MISO", "green",   []],
+    ["esp:22",   "rfid:RST",  "purple",  []],
+    ["esp:3V3",  "rfid:3.3V", "red",     []],
+    ["esp:GND.1","rfid:GND",  "black",   []],
+
+    ["esp:5",    "dht:SDA",   "green",   []],
+    ["dht:VCC",  "esp:3V3",   "red",     []],
+    ["dht:GND",  "esp:GND.2", "black",   []],
+
+    ["esp:12",      "r1:1",        "green", []],
+    ["r1:2",        "ledGreen:A",  "green", []],
+    ["ledGreen:C",  "esp:GND.1",   "black", []],
+
+    ["esp:13",      "r2:1",        "red",   []],
+    ["r2:2",        "ledRed:A",    "red",   []],
+    ["ledRed:C",    "esp:GND.1",   "black", []]
+  ]
+}

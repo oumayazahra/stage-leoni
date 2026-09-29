@@ -1,0 +1,492 @@
+/* ═══════════════════════════════════════════════════
+   Landing Page — LEONI Wiring Systems Corporate
+   Couleurs officielles : Bleu LEONI #004B93 / #003366
+   ═══════════════════════════════════════════════════ */
+
+/* ── Container principal ── */
+.landing-container {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+  background: linear-gradient(135deg, #001a3a 0%, #003366 30%, #004B93 60%, #0065b8 100%);
+  overflow: hidden;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}
+
+/* ── World map dots background ── */
+.landing-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    radial-gradient(circle, rgba(255, 255, 255, 0.04) 1.5px, transparent 1.5px);
+  background-size: 30px 30px, 50px 50px;
+  background-position: 0 0, 15px 15px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Network lines overlay ── */
+.landing-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    linear-gradient(135deg, transparent 40%, rgba(0, 101, 184, 0.15) 50%, transparent 60%),
+    linear-gradient(225deg, transparent 40%, rgba(0, 75, 147, 0.1) 50%, transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── Sphères de lueur ── */
+.glow-sphere {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  z-index: 1;
+  opacity: 0.25;
+  pointer-events: none;
+}
+
+.sphere-1 {
+  width: 500px;
+  height: 500px;
+  background: rgba(0, 101, 184, 0.6);
+  top: -100px;
+  left: -100px;
+}
+
+.sphere-2 {
+  width: 600px;
+  height: 600px;
+  background: rgba(0, 51, 102, 0.5);
+  bottom: -150px;
+  right: -150px;
+}
+
+/* ═══════════════════════
+   Navbar
+   ═══════════════════════ */
+.landing-navbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: rgba(0, 51, 102, 0.4);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 0;
+  border-radius: 0;
+}
+
+.landing-navbar::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #0065b8, #00a3e0, #0065b8, transparent);
+  opacity: 0.5;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar-logo-icon {
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.navbar-logo-icon svg {
+  filter: brightness(1.5);
+}
+
+.navbar-brand-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-brand-name {
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 4px;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.navbar-brand-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.navbar-brand-sub {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(200, 220, 255, 0.7);
+  letter-spacing: 0.5px;
+}
+
+.navbar-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 6px 16px;
+  border-radius: 30px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #34d399;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.navbar-dot {
+  width: 7px;
+  height: 7px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #10b981;
+  animation: pulse-green-dot 2s infinite;
+}
+
+@keyframes pulse-green-dot {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* ═══════════════════════
+   Hero Section
+   ═══════════════════════ */
+.hero-section {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 60px 40px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  flex: 1;
+}
+
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  flex: 1;
+  max-width: 600px;
+}
+
+/* ── Logo LEONI côté ── */
+.leoni-logo-side {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.leoni-logo-side img {
+  width: 220px;
+  height: auto;
+  filter: drop-shadow(0 4px 30px rgba(0, 101, 184, 0.5));
+  animation: float-logo 4s ease-in-out infinite;
+}
+
+/* Halo autour du logo */
+.leoni-logo-glow {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 163, 224, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+@keyframes float-logo {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+.hero-section h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: #fff;
+  margin-bottom: 18px;
+  text-align: left;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #00a3e0 0%, #00d4aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+  font-size: 1.05rem;
+  color: rgba(200, 220, 255, 0.75);
+  max-width: 480px;
+  margin: 0 0 36px 0;
+  line-height: 1.7;
+  text-align: left;
+}
+
+/* ── Bouton CTA ── */
+.cta-button {
+  background: linear-gradient(135deg, #00a3e0 0%, #0065b8 100%);
+  color: #fff;
+  border: none;
+  padding: 15px 36px;
+  border-radius: 40px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  cursor: pointer;
+  box-shadow:
+    0 4px 20px rgba(0, 101, 184, 0.4),
+    0 0 60px rgba(0, 163, 224, 0.1);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 8px 30px rgba(0, 101, 184, 0.55),
+    0 0 80px rgba(0, 163, 224, 0.15);
+  background: linear-gradient(135deg, #00b8f5 0%, #0078d4 100%);
+}
+
+.cta-button .arrow {
+  transition: transform 0.3s ease;
+  font-size: 1.2rem;
+}
+
+.cta-button:hover .arrow {
+  transform: translateX(5px);
+}
+
+/* ═══════════════════════
+   Features Section
+   ═══════════════════════ */
+.features-section {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px 60px;
+  width: 100%;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 36px;
+  letter-spacing: 0.5px;
+  color: #fff;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #00a3e0, #0065b8);
+  margin: 12px auto 0;
+  border-radius: 2px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.feature-card {
+  position: relative;
+  background: rgba(0, 51, 102, 0.35);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 28px;
+  overflow: hidden;
+  transition: all 0.35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(0, 163, 224, 0.3);
+  background: rgba(0, 51, 102, 0.55);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.feature-card-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 0% 0%, rgba(0, 163, 224, 0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.feature-icon {
+  font-size: 2.2rem;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+.feature-card h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.82rem;
+  color: rgba(200, 220, 255, 0.65);
+  line-height: 1.55;
+}
+
+/* ═══════════════════════
+   Footer
+   ═══════════════════════ */
+.landing-footer {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%;
+  padding: 0 40px 30px;
+}
+
+.footer-line {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 163, 224, 0.3) 50%, transparent 100%);
+  margin-bottom: 20px;
+}
+
+.landing-footer p {
+  font-size: 0.75rem;
+  color: rgba(200, 220, 255, 0.4);
+}
+
+/* ═══════════════════════
+   Responsive
+   ═══════════════════════ */
+@media (max-width: 900px) {
+  .hero-section {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 40px 24px 30px;
+    gap: 30px;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-section h1 {
+    text-align: center;
+    font-size: 2.2rem;
+  }
+
+  .hero-subtitle {
+    text-align: center;
+  }
+
+  .leoni-logo-side img {
+    width: 160px;
+  }
+
+  .leoni-logo-glow {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section h1 {
+    font-size: 1.8rem;
+  }
+
+  .landing-navbar {
+    padding: 12px 20px;
+  }
+
+  .features-section,
+  .landing-footer {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .leoni-logo-side img {
+    width: 120px;
+  }
+}
